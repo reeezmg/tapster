@@ -81,7 +81,7 @@ const EditCard = () => {
             formData.append("image", file);
             formData.append("name", name); // Use a unique name for each image
 
-            const response = await axios.post("http://localhost:8000/api/images/", formData, {
+            const response = await axios.post("https://server.tapster.shop/api/images/", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
                 withCredentials: true
             });
@@ -112,7 +112,7 @@ const EditCard = () => {
         };
 
         // Send form data to save the card
-        const response = await axios.post(`http://localhost:8000/api/card`, { formData, id }, { withCredentials: true });
+        const response = await axios.post(`https://server.tapster.shop/api/card`, { formData, id }, { withCredentials: true });
         console.log("Card saved:", response.data);
 
         // Navigate to the next step

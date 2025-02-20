@@ -86,7 +86,7 @@ const Step2 = () => {
         formData.append("image", file);
         formData.append("name", name); // Use a unique name for each image
 
-        const response = await axios.post("http://localhost:8000/api/images/", formData, {
+        const response = await axios.post("https://server.tapster.shop/api/images/", formData, {
             headers: { "Content-Type": "multipart/form-data" },
             withCredentials: true
         });
@@ -138,7 +138,7 @@ const Step2 = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:8000/api/web", {formData,id,webType},{withCredentials:true});
+            const response = await axios.post("https://server.tapster.shop/api/web", {formData,id,webType},{withCredentials:true});
             console.log(response)
             navigate(`/client/pay/${id}`);
         } catch (error) {

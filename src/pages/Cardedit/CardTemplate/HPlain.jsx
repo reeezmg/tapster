@@ -39,7 +39,7 @@ function HPlain({isFlipped,textColor,bgColor,logo,companyName,name,subtitle,QRCo
     }}
   >
     <QRCodeCanvas
-      value={'http://tapster.shop/response/hameed'}
+      value={'https://tapster.shop/response/hameed'}
       size={80}
       className="self-center"
       bgColor={bgColor}
