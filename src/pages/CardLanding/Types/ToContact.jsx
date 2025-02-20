@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 function ContactInput({ contact, setContact }) {
   const handleChange = (e) => {
@@ -79,34 +79,33 @@ function ContactInput({ contact, setContact }) {
   );
 }
 
-
-
-function ContactPreview({ contact, landing }) { 
+function ContactPreview({ contact, landing }) {
   useEffect(() => {
     if (landing) {
       const vCardData = `
-  BEGIN:VCARD
-  VERSION:3.0
-  FN:${contact.name || "N/A"}
-  ORG:${contact.company || "N/A"}
-  TEL:${contact.phone || ""}
-  EMAIL:${contact.email || ""}
-  ADR:${contact.address || ""}
-  NOTE:GSTN: ${contact.gstn || "N/A"}
-  END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+FN:${contact.name || "N/A"}
+ORG:${contact.company || "N/A"}
+TEL:${contact.phone || ""}
+EMAIL:${contact.email || ""}
+ADR:${contact.address || ""}
+NOTE:GSTN: ${contact.gstn || "N/A"}
+END:VCARD
       `.trim();
-  
-      // Convert the vCard data to Base64
-      const vCardBase64 = btoa(unescape(encodeURIComponent(vCardData)));
-  
-      // Create a data URL for the vCard
-      const vcfUrl = `data:text/vcard;base64,${vCardBase64}`;
-  
-      // Open in a new tab for Safari to handle it properly
+
+      const blob = new Blob([vCardData], { type: "text/vcard" });
+      const vcfUrl = URL.createObjectURL(blob);
+
+      // Open in Safari (iPhone will prompt to save the contact)
       window.location.href = vcfUrl;
+
+      // Cleanup the object URL
+      setTimeout(() => {
+        URL.revokeObjectURL(vcfUrl);
+      }, 1000);
     }
   }, [landing, contact]);
-  
 
   return (
     <div className="p-4">
@@ -122,8 +121,5 @@ function ContactPreview({ contact, landing }) {
     </div>
   );
 }
-
-
-
 
 export { ContactInput, ContactPreview };
