@@ -39,7 +39,13 @@ function HPlain({isFlipped,textColor,bgColor,logo,companyName,name,subtitle,QRCo
     }}
   >
     <QRCodeCanvas
-      value={'https://tapster.shop/response/hameed'}
+      value={`BEGIN:VCARD
+        VERSION:3.0
+        FN:Abdul Hameed
+        TEL:+919945923901
+        EMAIL:mghameed901@gmail.com
+        URL:tagster
+        END:VCARD`}
       size={80}
       className="self-center"
       bgColor={bgColor}
