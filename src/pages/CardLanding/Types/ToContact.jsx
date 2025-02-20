@@ -92,7 +92,7 @@ EMAIL:${contact.email || ""}
 ADR:${contact.address || ""}
 NOTE:GSTN: ${contact.gstn || "N/A"}
 END:VCARD
-      `.trim();
+      `;
 
       const blob = new Blob([vCardData], { type: "text/vcard" });
       const vcfUrl = URL.createObjectURL(blob);
