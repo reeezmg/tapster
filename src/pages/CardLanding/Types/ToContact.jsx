@@ -95,17 +95,15 @@ function ContactPreview({ contact, landing }) {
             NOTE:GSTN: ${contact.gstn || "N/A"}
             END:VCARD
             `;
+  
       const blob = new Blob([vCardData], { type: "text/vcard" });
       const vcfUrl = URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = vcfUrl;
-      link.download = `${contact.name || "contact"}.vcf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      URL.revokeObjectURL(vcfUrl);
+  
+      // Open the vCard file directly in a new tab
+      window.location.href = vcfUrl;
+  
+      // Revoke object URL after a delay to ensure Safari loads it
+      setTimeout(() => URL.revokeObjectURL(vcfUrl), 5000);
     }
   }, [landing, contact]);
 
