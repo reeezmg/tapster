@@ -80,19 +80,21 @@ function ContactInput({ contact, setContact }) {
 }
 
 function ContactPreview({ contact, landing }) {
+  const [firstName, lastName] = contact.name?.split(" ") || ["", ""];
   useEffect(() => {
     if (landing) {
       const vCardData = `
 BEGIN:VCARD
 VERSION:3.0
-FN:Abdul Hameed
+N:${lastName || ""};${firstName || ""};;;
+FN:${contact.name || "N/A"}
 ORG:${contact.company || "N/A"}
 TEL:${contact.phone || ""}
 EMAIL:${contact.email || ""}
 ADR:${contact.address || ""}
 NOTE:GSTN: ${contact.gstn || "N/A"}
 END:VCARD
-      `;
+      `.trim();
 
       const blob = new Blob([vCardData], { type: "text/vcard" });
       const vcfUrl = URL.createObjectURL(blob);
