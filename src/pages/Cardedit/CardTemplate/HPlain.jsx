@@ -43,9 +43,11 @@ function HPlain({isFlipped,textColor,bgColor,logo,companyName,name,subtitle,QRCo
 BEGIN:VCARD
 VERSION:3.0
 FN:Abdul Hameed
-TEL:+919945923901
+TEL:9945923901
 EMAIL:mghameed901@gmail.com
 URL:tagster
+ADR:
+NOTE:GSTN:
 END:VCARD
   `.trim()}
   size={80}
