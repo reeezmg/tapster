@@ -45,7 +45,7 @@ VERSION:3.0
 FN:Abdul Hameed
 TEL:9945923901
 EMAIL:mghameed901@gmail.com
-URL:tagster
+URL:tapster.shop/response/hameed
 ADR:
 NOTE:GSTN:
 END:VCARD

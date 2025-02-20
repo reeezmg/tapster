@@ -81,31 +81,32 @@ function ContactInput({ contact, setContact }) {
 
 function ContactPreview({ contact, landing }) {
   useEffect(() => {
-    if (landing) {
-      const vCardData = `
-BEGIN:VCARD
-VERSION:3.0
-FN:${contact.name || "N/A"}
-ORG:${contact.company || "N/A"}
-TEL:${contact.phone || ""}
-EMAIL:${contact.email || ""}
-ADR:${contact.address || ""}
-NOTE:GSTN: ${contact.gstn || "N/A"}
-END:VCARD
-      `.trim();
-
-      const blob = new Blob([vCardData], { type: "text/vcard" });
-      const vcfUrl = URL.createObjectURL(blob);
-
-      // Open in Safari (iPhone will prompt to save the contact)
-      window.location.href = vcfUrl;
-
-      // Cleanup the object URL
-      setTimeout(() => {
-        URL.revokeObjectURL(vcfUrl);
-      }, 1000);
-    }
-  }, [landing, contact]);
+    if (!landing || !contact.name || contact.name.trim() === "") return;
+  
+    console.log("Current contact state:", contact); // Debugging
+  
+    const vCardData = `
+  BEGIN:VCARD
+  VERSION:3.0
+  FN:${contact.name}
+  ORG:${contact.company || "N/A"}
+  TEL:${contact.phone || ""}
+  EMAIL:${contact.email || ""}
+  ADR:${contact.address || ""}
+  NOTE:GSTN: ${contact.gstn || "N/A"}
+  END:VCARD
+    `.trim();
+  
+    const blob = new Blob([vCardData], { type: "text/vcard" });
+    const vcfUrl = URL.createObjectURL(blob);
+  
+    window.location.href = vcfUrl;
+  
+    setTimeout(() => {
+      URL.revokeObjectURL(vcfUrl);
+    }, 1000);
+  }, [landing, contact]); // Include full `contact` object
+  
 
   return (
     <div className="p-4">
