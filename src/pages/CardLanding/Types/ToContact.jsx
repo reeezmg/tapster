@@ -85,7 +85,7 @@ function ContactPreview({ contact, landing }) {
       const vCardData = `
 BEGIN:VCARD
 VERSION:3.0
-FN:${contact.name || "N/A"}
+FN:${contact.name}
 ORG:${contact.company || "N/A"}
 TEL:${contact.phone || ""}
 EMAIL:${contact.email || ""}
