@@ -83,16 +83,16 @@ function ContactPreview({ contact, landing }) {
   useEffect(() => {
     if (landing) {
       const vCardData = `
-          BEGIN:VCARD
-          VERSION:3.0
-          FN:${contact.name || "N/A"}
-          ORG:${contact.company || "N/A"}
-          TEL:${contact.phone || ""}
-          EMAIL:${contact.email || ""}
-          ADR:${contact.address || ""}
-          NOTE:GSTN: ${contact.gstn || "N/A"}
-          END:VCARD
-      `.trim();
+BEGIN:VCARD
+VERSION:3.0
+FN:${contact.name || "N/A"}
+ORG:${contact.company || "N/A"}
+TEL:${contact.phone || ""}
+EMAIL:${contact.email || ""}
+ADR:${contact.address || ""}
+NOTE:GSTN: ${contact.gstn || "N/A"}
+END:VCARD
+      `
 
       const blob = new Blob([vCardData], { type: "text/vcard" });
       const vcfUrl = URL.createObjectURL(blob);

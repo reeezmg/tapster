@@ -38,19 +38,22 @@ function HPlain({isFlipped,textColor,bgColor,logo,companyName,name,subtitle,QRCo
       transform: "rotateY(180deg)",
     }}
   >
-    <QRCodeCanvas
-      value={`BEGIN:VCARD
-        VERSION:3.0
-        FN:Abdul Hameed
-        TEL:+919945923901
-        EMAIL:mghameed901@gmail.com
-        URL:tagster
-        END:VCARD`}
-      size={80}
-      className="self-center"
-      bgColor={bgColor}
-      fgColor={textColor}
-    />
+   <QRCodeCanvas
+  value={`
+BEGIN:VCARD
+VERSION:3.0
+FN:Abdul Hameed
+TEL:+919945923901
+EMAIL:mghameed901@gmail.com
+URL:tagster
+END:VCARD
+  `.trim()}
+  size={80}
+  className="self-center"
+  bgColor={bgColor}
+  fgColor={textColor}
+/>
+
     <p className="absolute bottom-2 right-2 text-[10px]"
      style={{
       color: textColor,
