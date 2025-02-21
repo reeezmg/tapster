@@ -53,6 +53,25 @@ export default function Pay() {
   }, []);
 
   return (
+    <div className="p-4 max-w-7xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4 text-center">Payment</h1>
+        <div className="mb-6">
+            <div className="flex justify-between items-center">
+            {[1, 2, 3, 4].map((step) => (
+                <div
+                key={step}
+                className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    step === 4 ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+                }`}
+                >
+                {step}
+                </div>
+            ))}
+            </div>
+            <div className="mt-2 bg-gray-200 h-1 rounded">
+            <div className="bg-blue-500 h-1 rounded" style={{ width: "100%" }}></div>
+            </div>
+        </div>
     <div className="flex flex-col lg:flex-row min-h-screen p-8 bg-gray-100 gap-8">
       {/* Left side - Dynamic Card */}
       <div className="flex justify-center items-center w-full lg:w-1/2">
@@ -179,6 +198,7 @@ export default function Pay() {
           Pay Now
         </button>
       </div>
+    </div>
     </div>
   );
 }

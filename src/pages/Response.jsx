@@ -34,7 +34,7 @@ function Response() {
   return (
     <div>
       <div className="w-full md:w-1/2 p-4 bg-white rounded-lg shadow-md">
-        {webType === "contact" && <ContactPreview contact={response} landing={true}/>}
+        {webType === "" && <ContactPreview contact={response} landing={true}/>}
         {webType === "link" && <ProfilePreview profileInfo={response} links={response.links} landing={true}/>}
         {webType === "shop" && <ShopLandingPage shopInfo={response} landing={true}/>}
         {webType === "student" && <PortfolioLanding studentInfo={response} landing={true}/>}

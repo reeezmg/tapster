@@ -14,6 +14,7 @@ import DesignSelectionPage from './pages/Cardedit/DesignSelection';
 import CardDetails from './pages/Cardedit/CardDetails';
 import HomePage from './pages/HomePage';
 import Step2 from './pages/CardLanding/Step2';
+import Step3 from './pages/CardLanding/Step3';
 import Response from './pages/Response';
 import Pay from './pages/Pay';
 
@@ -49,6 +50,7 @@ function App() {
       <Route path="/client/design" element={<DesignSelectionPage />} />
       <Route path="/client/step1/:id" element={<EditCardPage />} />
       <Route path="/client/step2/:id" element={<Step2 />} />
+      <Route path="/client/step3/:id" element={<Step3 />} />
       <Route path="/client/settings" element={<Settings />} />
       <Route path="/client/pay/:id" element={<Pay />} />
       <Route path="*" element={<Navigate to="/client" replace />} />

@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 export default function Landing() {
   const steps = [
     { id: 1, title: "Design Your Card", icon: <FaMagic />, description: "Choose a plain color, select a predefined design, or upload your own." },
-    { id: 2, title: "Select Response Type", icon: <FaLink />, description: "Choose between VCard, link list, shop information, or resume." },
-    { id: 3, title: "Payment & Delivery", icon: <FaShoppingCart />, description: "Secure payment and fast delivery to your address." }
+    { id: 2, title: "Add VCard Details", icon: <FaIdCard />, description: "Fill in your contact details to be stored in the NFC card." },
+    { id: 3, title: "Select Response Website", icon: <FaLink />, description: "Choose between link list, shop information, or resume." },
+    { id: 4, title: "Payment & Delivery", icon: <FaShoppingCart />, description: "Secure payment and fast delivery to your address." }
   ];
   
   return (
