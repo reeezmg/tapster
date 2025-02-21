@@ -42,7 +42,7 @@ function HPlain({isFlipped,textColor,bgColor,logo,companyName,name,subtitle,QRCo
   value={`
 BEGIN:VCARD
 VERSION:3.0
-FN:Abdul Hameed
+N:Hameed;Abdul;;;
 TEL:9945923901
 ORG:City Center
 EMAIL:mghameed901@gmail.com
