@@ -44,10 +44,11 @@ BEGIN:VCARD
 VERSION:3.0
 FN:Abdul Hameed
 TEL:9945923901
+ORG:City Center
 EMAIL:mghameed901@gmail.com
 URL:tapster.shop/response/hameed
-ADR:
-NOTE:GSTN:
+ADR:Old bus stand uppinangady, Mangalore, Karnataka-574241
+NOTE:GSTN:29ACBPH0045H1Z0
 END:VCARD
   `.trim()}
   size={80}

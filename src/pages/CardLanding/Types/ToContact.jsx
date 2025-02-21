@@ -80,14 +80,18 @@ function ContactInput({ contact, setContact }) {
 }
 
 function ContactPreview({ contact, landing }) {
-  const [firstName, lastName] = contact.name?.split(" ") || ["", ""];
   useEffect(() => {
-    if (landing) {
+    if (landing && contact.name) {
+      // Split full name properly
+      const nameParts = contact.name.trim().split(" ");
+      const lastName = nameParts.length > 1 ? nameParts.pop() : ""; // Last word as last name
+      const firstName = nameParts.join(" "); // Everything else as first name
+
       const vCardData = `
 BEGIN:VCARD
 VERSION:3.0
-N:${'reez' || ""};${'mg' || ""};;;
-FN:${contact.name || "N/A"}
+N:${lastName};${firstName};;;
+FN:${contact.name}
 ORG:${contact.company || "N/A"}
 TEL:${contact.phone || ""}
 EMAIL:${contact.email || ""}
@@ -99,15 +103,15 @@ END:VCARD
       const blob = new Blob([vCardData], { type: "text/vcard" });
       const vcfUrl = URL.createObjectURL(blob);
 
-      // Open in Safari (iPhone will prompt to save the contact)
       window.location.href = vcfUrl;
 
-      // Cleanup the object URL
       setTimeout(() => {
         URL.revokeObjectURL(vcfUrl);
       }, 1000);
     }
   }, [landing, contact]);
+
+ 
 
   return (
     <div className="p-4">
