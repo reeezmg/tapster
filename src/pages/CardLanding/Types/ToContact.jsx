@@ -96,34 +96,40 @@ function ContactPreview({ contact, landing }) {
   useEffect(() => {
     if (landing && contact.name) {
       // Split full name properly
-      const nameParts = contact.name.trim().split("");
+      const nameParts = contact.name.trim().split(" ");
       const lastName = nameParts.length > 1 ? nameParts.pop() : "";
-      const firstName = nameParts.join("");
-
+      const firstName = nameParts.join(" ");
+  
       const vCardData = `
-          BEGIN:VCARD
-          VERSION:3.0
-          N:${lastName};${firstName};;;
-          FN:${contact.name}
-          ORG:${contact.company || "N/A"}
-          TEL:${contact.phone || ""}
-          EMAIL:${contact.email || ""}
-          ADR:${contact.address || ""}
-          NOTE:GSTN: ${contact.gstn || "N/A"}
-          END:VCARD
-          `.trim();
-
+  BEGIN:VCARD
+  VERSION:3.0
+  N:${lastName};${firstName};;;
+  FN:${contact.name}
+  ORG:${contact.company || "N/A"}
+  TEL:${contact.phone || ""}
+  EMAIL:${contact.email || ""}
+  ADR:${contact.address || ""}
+  NOTE:GSTN: ${contact.gstn || "N/A"}
+  END:VCARD
+      `.trim();
+  
       const blob = new Blob([vCardData], { type: "text/vcard" });
       const vcfUrl = URL.createObjectURL(blob);
-
-      window.location.href = vcfUrl;
-
+  
+      // Create a temporary anchor element for download
+      const a = document.createElement("a");
+      a.href = vcfUrl;
+      a.download = "contact.vcf"; // Set the file name
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+  
+      // Revoke the blob URL after a short delay
       setTimeout(() => {
         URL.revokeObjectURL(vcfUrl);
       }, 1000);
     }
   }, [landing, contact]);
-
  
 
   return (
