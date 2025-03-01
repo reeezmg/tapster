@@ -93,38 +93,32 @@ function ContactPreview({ contact, landing }) {
     const info = `Name: ${contact.name || "N/A"}\nCompany: ${contact.company || "N/A"}\nContact: ${contact.phone || "N/A"}\nEmail: ${contact.email || "N/A"}\nAddress: ${contact.address || "N/A"}\nGSTN: ${contact.gstn || "N/A"}`;
     copyToClipboard(info, "all");
   };
+  
   useEffect(() => {
     if (landing && contact.name) {
       // Split full name properly
       const nameParts = contact.name.trim().split(" ");
-      const lastName = nameParts.length > 1 ? nameParts.pop() : "";
-      const firstName = nameParts.join(" ");
-  
+      const lastName = nameParts.length > 1 ? nameParts.pop() : ""; // Last word as last name
+      const firstName = nameParts.join(" "); // Everything else as first name
+
       const vCardData = `
-  BEGIN:VCARD
-  VERSION:3.0
-  N:${lastName};${firstName};;;
-  FN:${contact.name}
-  ORG:${contact.company || "N/A"}
-  TEL:${contact.phone || ""}
-  EMAIL:${contact.email || ""}
-  ADR:${contact.address || ""}
-  NOTE:GSTN: ${contact.gstn || "N/A"}
-  END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+N:${lastName};${firstName};;;
+FN:${contact.name}
+ORG:${contact.company || "N/A"}
+TEL:${contact.phone || ""}
+EMAIL:${contact.email || ""}
+ADR:${contact.address || ""}
+NOTE:GSTN: ${contact.gstn || "N/A"}
+END:VCARD
       `.trim();
-  
+
       const blob = new Blob([vCardData], { type: "text/vcard" });
       const vcfUrl = URL.createObjectURL(blob);
-  
-      // Create a temporary anchor element for download
-      const a = document.createElement("a");
-      a.href = vcfUrl;
-      a.download = "contact.vcf"; // Set the file name
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-  
-      // Revoke the blob URL after a short delay
+
+      window.location.href = vcfUrl;
+
       setTimeout(() => {
         URL.revokeObjectURL(vcfUrl);
       }, 1000);
