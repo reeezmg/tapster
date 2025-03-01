@@ -130,7 +130,7 @@ END:VCARD
     <div className="p-6 border rounded-lg shadow-md bg-white max-w-md mx-auto">
     <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Contact Info</h2>
     <div className="space-y-3">
-      {["name", "company", "phone", "email", "address", "GSTN"].map((key) => (
+      {["name", "company", "phone", "email", "address", "gstn"].map((key) => (
         <div key={key} className="flex justify-between items-center border p-2 rounded-md">
           <p>
             <span className="font-medium capitalize">{key}:</span> {contact[key] || "N/A"}
