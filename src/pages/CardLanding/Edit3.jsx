@@ -11,7 +11,7 @@ import PortfolioLanding from "./Types/PortfolioLanding";
 import { ExternalLink,EmbedLink } from "./Types/ExternalLink";
 import axios from "axios";
 
-const Step3 = () => {
+const Edit3 = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [webType, setWebType] = useState('link')
@@ -24,8 +24,8 @@ const Step3 = () => {
         email: "",
         address: "",
         bio: "", 
-        profilePicture: "" ,
-        backgroundImage:""
+        profilePicture:  null ,
+        backgroundImage: null
     });
     const [links, setLinks] = useState([]);
     const [shopInfo, setShopInfo] = useState({
@@ -81,7 +81,7 @@ const Step3 = () => {
                 }
  
                 // Set the correct state based on webType
-                switch (webType) {
+                switch (data.webType) {
                     case "link":
                         setProfileInfo({
                             name: data.responseData.name || "",
@@ -171,16 +171,16 @@ const Step3 = () => {
         return response.data; // Assuming the server responds with the uploaded image URL
     };
 
-    const handleNext = async (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
         let formData;  
 
         if(webType === 'link'){
-            profileInfo.profilePicture = profileInfo.profilePicture ? await uploadImage(profileInfo.profilePicture,Date.now()) : "";
-            profileInfo.backgroundImage = profileInfo.backgroundImage ? await uploadImage(profileInfo.backgroundImage, Date.now()) : "";
+            profileInfo.profilePicture = profileInfo.profilePicture ? await uploadImage(profileInfo.profilePicture,Date.now()) : null;
+            profileInfo.backgroundImage = profileInfo.backgroundImage ? await uploadImage(profileInfo.backgroundImage, Date.now()) : null;
             formData = {...profileInfo,links}
         }else if(webType === 'shop'){
-            shopInfo.logo = shopInfo.logo ? await uploadImage(shopInfo.logo, Date.now()) : "";
+            shopInfo.logo = shopInfo.logo ? await uploadImage(shopInfo.logo, Date.now()) : null;
 
 
         shopInfo.otherPictures = shopInfo.otherPictures
@@ -201,7 +201,7 @@ const Step3 = () => {
             : [];
             formData = shopInfo
         }else if(webType === 'student'){
-            studentInfo.profilePicture = studentInfo.profilePicture ? await uploadImage(studentInfo.profilePicture,Date.now()) : "";
+            studentInfo.profilePicture = studentInfo.profilePicture ? await uploadImage(studentInfo.profilePicture,Date.now()) : null;
             formData = studentInfo
         }else {
             formData = {externalLink}
@@ -209,7 +209,7 @@ const Step3 = () => {
 
         try {
             const response = await axios.post("http://localhost:8000/api/web", {formData,id,webType},{withCredentials:true});
-            navigate(`/client/pay/${id}`);
+            navigate(`/client`);
         } catch (error) {
          console.log(error)
         }
@@ -254,19 +254,13 @@ const Step3 = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:8000/api/web", {formData,id,webType:""},{withCredentials:true});
-            navigate(`/client/step2/${id}`);
+            const response = await axios.post("http://localhost:8000/api/web", {formData,id,webType},{withCredentials:true});
+            navigate(`/client/edit2/${id}`);
         } catch (error) {
          console.log(error)
         }
 
         
-    };
-
-    const handleSkip = async (e) => {
-        e.preventDefault();
-        
-        navigate(`/client/pay/${id}`);
     };
 
     useEffect(() => {
@@ -277,24 +271,8 @@ const Step3 = () => {
 
     return (
         <div className="p-4 max-w-7xl mx-auto">
-        <h1 className="text-2xl font-bold mb-4 text-center">Create Response Website</h1>
-        <div className="mb-6">
-            <div className="flex justify-between items-center">
-            {[1, 2, 3, 4].map((step) => (
-                <div
-                key={step}
-                className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    step === 3 ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-                }`}
-                >
-                {step}
-                </div>
-            ))}
-            </div>
-            <div className="mt-2 bg-gray-200 h-1 rounded">
-            <div className="bg-blue-500 h-1 rounded" style={{ width: "80%" }}></div>
-            </div>
-        </div>
+        <h1 className="text-2xl font-bold mb-4 text-center">Edit Response Website</h1>
+        
 
         <div className="flex justify-between mt-6 mb-4">
             <button
@@ -303,21 +281,12 @@ const Step3 = () => {
             >
                 Back
             </button>
-            <div>
-            <button
-            className="bg-red-500 text-white mx-2 px-6 py-2 rounded-lg hover:bg-red-600 transition-colors"
-            onClick={handleSkip}
-            >
-                Skip
-            </button>
             <button
             className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-            onClick={handleNext}
+            onClick={handleSave}
             >
-                Next
+                Save
             </button>
-            </div>
-           
         </div>
 
         <div className="flex flex-col md:flex-row gap-6">
@@ -417,25 +386,15 @@ const Step3 = () => {
             >
                 Back
             </button>
-            <div>
-            <button
-            className="bg-red-500 text-white mx-2 px-6 py-2 rounded-lg hover:bg-red-600 transition-colors"
-            onClick={handleSkip}
-            >
-                Skip
-            </button>
             <button
             className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-            onClick={handleNext}
+            onClick={handleSave}
             >
-                Next
+                Save
             </button>
-            </div>
-           
         </div>
-
         </div>
     );
     };
 
-    export default Step3;
+    export default Edit3;

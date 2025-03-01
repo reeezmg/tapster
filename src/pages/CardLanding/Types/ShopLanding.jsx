@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 
-const ShopLandingPage = ({ shopInfo }) => {
+const ShopLandingPage = ({ shopInfo, landing }) => {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+
+  const getImageSrc = (image) => {
+    if (!image) return "";
+    return landing
+      ? `https://unifeed.s3.ap-south-1.amazonaws.com/${image}`
+      : image instanceof File
+      ? URL.createObjectURL(image)
+      : `https://unifeed.s3.ap-south-1.amazonaws.com/${image}`;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,7 +28,7 @@ const ShopLandingPage = ({ shopInfo }) => {
       <header className="text-center mb-12">
         {shopInfo.logo && (
           <img
-            src={URL.createObjectURL(shopInfo.logo)}
+            src={getImageSrc(shopInfo.logo)}
             alt="Shop Logo"
             className="mx-auto h-32 w-32 rounded-full object-cover shadow-lg"
           />
@@ -36,7 +45,7 @@ const ShopLandingPage = ({ shopInfo }) => {
             <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
               {category.image && (
                 <img
-                  src={URL.createObjectURL(category.image)}
+                  src={getImageSrc(category.image)}
                   alt={category.name}
                   className="w-full h-48 object-cover"
                 />
@@ -52,7 +61,7 @@ const ShopLandingPage = ({ shopInfo }) => {
       {/* Business Hours Section */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Business Hours</h2>
-        <div className="bg-white rounded-lg shadow-md p-6  w-full">
+        <div className="bg-white rounded-lg shadow-md p-6 w-full">
           {Object.keys(shopInfo.businessHours).map((day) => (
             <div key={day} className="flex justify-between items-center border-b border-gray-200 py-2">
               <span className="font-medium text-gray-700">{day}</span>
@@ -73,17 +82,16 @@ const ShopLandingPage = ({ shopInfo }) => {
         <section className="mb-12">
           <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Gallery</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {shopInfo.otherPictures.map(
-              (picture, index) =>
-                picture && (
-                  <img
-                    key={index}
-                    src={URL.createObjectURL(picture)}
-                    alt={`Gallery Image ${index + 1}`}
-                    className="w-full h-48 object-cover rounded-lg shadow-md"
-                  />
-                )
-            )}
+            {shopInfo.otherPictures.map((picture, index) => (
+              picture && (
+                <img
+                  key={index}
+                  src={getImageSrc(picture)}
+                  alt={`Gallery Image ${index + 1}`}
+                  className="w-full h-48 object-cover rounded-lg shadow-md"
+                />
+              )
+            ))}
           </div>
         </section>
       )}

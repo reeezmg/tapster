@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import AuthService from '../service/AuthService';
-import { useNavigate } from 'react-router-dom';
+import AuthService from '../../service/AuthService';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate(); 
+   const [error, setError] = useState('');
   const handleLogin = async () => {
+    setError(''); 
     try {
-      const response = await AuthService.login({ email, password });
-      alert(`Login successful!`);
-      window.location.reload()
+      const response = await AuthService.dlogin({ email, password });
+      console.log(response)
+      navigate(`/direct/edit/${response}`)
 
     } catch (error) {
-      alert(error.message || 'Error logging in');
+      setError(error.message || 'Error registering');
     }
   };
 
@@ -25,18 +27,9 @@ function Login() {
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-blue-600" onClick={() => navigate('/')}>Tapster</h1>
           <div className="space-x-4">
-            <Link
-              to="/login"
-              className="text-blue-600 font-medium px-4 py-2 hover:bg-gray-200 rounded"
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="bg-blue-600 text-white font-medium px-4 py-2 rounded hover:bg-blue-700"
-            >
-              Register
-            </Link>
+           
+      
+            
           </div>
         </div>
       </header>
@@ -45,6 +38,12 @@ function Login() {
       <div className="flex items-center justify-center min-h-[calc(100vh-80px)]">
         <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
           <h1 className="text-2xl font-bold text-center mb-6">Login</h1>
+          {error && (
+            <div className="mb-4 text-red-600 text-sm text-center bg-red-100 p-2 rounded-lg">
+              {error}
+            </div>
+          )}
+
           <div className="space-y-4">
             <div>
               <label

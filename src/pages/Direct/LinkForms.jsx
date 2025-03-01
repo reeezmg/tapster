@@ -1,8 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Trash2 } from "lucide-react";
 import Select from 'react-select';
-export function Links({profileInfo, setProfileInfo,links, setLinks}) {
- 
+import { useNavigate,useParams } from "react-router-dom";
+import axios from "axios";
+
+export default function LinkForms() {
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const [profileInfo, setProfileInfo] = useState({ 
+            name: "",
+            phone: "",
+            email: "",
+            address: "",
+            bio: "", 
+            profilePicture: null ,
+            backgroundImage:null
+        });
+        const [links, setLinks] = useState([]);
+
     const websites = [
       "Facebook", "Twitter", "LinkedIn", "Instagram", "GitHub", "YouTube", "Reddit", "TikTok", "Snapchat", "Pinterest", 
       "Tumblr", "Flickr", "Medium", "Quora", "DeviantArt", "Vimeo", "Dribbble", "Behance", "SoundCloud", "Spotify", 
@@ -44,10 +59,91 @@ export function Links({profileInfo, setProfileInfo,links, setLinks}) {
           setProfileInfo({ ...profileInfo, backgroundImage: file });
       }
     };
+
+    useEffect(() => {
+      const fetchWebData = async () => {
+          try {
+              const { data } = await axios.get(`http://localhost:8000/api/web/getWebDataByIdForLink/${id}`);
+              
+              if (!data || !data.responseData) {
+                  console.error("No responseData received");
+                  return;
+              } 
+      
+          setProfileInfo({
+              name: data.responseData.name || "",
+              phone: data.responseData.phone || "",
+              email: data.responseData.email || "",
+              address: data.responseData.address || "",
+              bio: data.responseData.bio || "",
+              profilePicture: data.responseData.profilePicture || "",
+              backgroundImage: data.responseData.backgroundImage || "",
+          });
+          setLinks(data.responseData.links || []);
+        }catch(error){
+          console.log(error)
+        }    
+      }
+  
+      fetchWebData();
+  }, []); 
+
+  const uploadImage = async (file, name) => {
+    if (!file) return null; // If no file, return null
+
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("name", name); // Use a unique name for each image
+
+    const response = await axios.post("http://localhost:8000/api/images/", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true
+    });
+
+    return response.data; // Assuming the server responds with the uploaded image URL
+};
+
+const handleSave = async (e) => {
+  e.preventDefault();
+  let formData;  
+
+  
+
+  try {
+    
+    profileInfo.profilePicture = profileInfo.profilePicture ? await uploadImage(profileInfo.profilePicture,Date.now()) : null;
+    profileInfo.backgroundImage = profileInfo.backgroundImage ? await uploadImage(profileInfo.backgroundImage, Date.now()) : null;
+    formData = {...profileInfo,links}
+      const response = await axios.post("http://localhost:8000/api/web/forLink", {formData,id},{withCredentials:true});
+      navigate(`/direct/profile/${id}`);
+  } catch (error) {
+   console.log(error)
+  }
+ 
+};
+
+const handleBack = () => {
+  navigate(`/direct/profile/${id}`);
+}
+
   
     return (
       <div className="p-4 max-w-xl mx-auto">
         {/* Profile Information Section */}
+        <div className="flex justify-between mt-6 mb-4">
+            <button
+            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+            onClick={handleBack}
+            >
+                Back
+            </button>
+            <button
+            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+            onClick={handleSave}
+            >
+                Save
+            </button>
+        </div>
         <div className="mb-4">
           <label className="block mb-1 mt-3">Name</label>
           <input
@@ -138,81 +234,6 @@ export function Links({profileInfo, setProfileInfo,links, setLinks}) {
               <button onClick={() => removeLink(index)} className="bg-red-500 text-white p-2 rounded self-end">
                 <Trash2 size={16} />
               </button>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  export function ProfilePreview({ profileInfo, links, landing }) {
-    return (
-      <div className="p-6">
-        {/* Profile Header */}
-        <div className="flex flex-col items-center justify-center border-b pb-4 mb-6">
-          {/* Background Image */}
-          <div
-              className="w-full h-48 bg-gray-200 bg-cover rounded-lg mb-4"
-              style={{
-                backgroundImage: `url(${
-                  landing
-                    ? `https://unifeed.s3.ap-south-1.amazonaws.com/${profileInfo.backgroundImage}`
-                    : profileInfo.backgroundImage instanceof File
-                    ? URL.createObjectURL(profileInfo.backgroundImage)
-                    :`https://unifeed.s3.ap-south-1.amazonaws.com/${profileInfo.backgroundImage}`
-                })`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-              />
-
-          
-          {/* Profile Picture */}
-          <img
-            src={
-              landing
-                ? `https://unifeed.s3.ap-south-1.amazonaws.com/${profileInfo.profilePicture}`
-                : profileInfo.profilePicture instanceof File
-                ? URL.createObjectURL(profileInfo.profilePicture)
-                : `https://unifeed.s3.ap-south-1.amazonaws.com/${profileInfo.profilePicture}`
-            }
-            alt={""}
-            className="w-32 h-32 rounded-full border-4 border-white -mt-16 shadow-md object-cover"
-          />
-          {/* Profile Name */}
-          <h3 className="text-xl font-semibold text-gray-800 mt-4">{profileInfo.name || "Name not provided"}</h3>
-          
-          {/* Phone, Email, and Address */}
-          <div className="text-center mt-2 space-y-1">
-            {profileInfo.phone && <p className="text-sm text-gray-600">{profileInfo.phone}</p>}
-            {profileInfo.email && <p className="text-sm text-gray-600">{profileInfo.email}</p>}
-            {profileInfo.address && <p className="text-sm text-gray-600">{profileInfo.address}</p>}
-          </div>
-          
-          {/* Bio or Additional Info */}
-          <p className="text-sm text-gray-500 mt-4">{profileInfo.bio || "Your bio or description goes here..."}</p>
-        </div>
-  
-        {/* Links Section */}
-        <div className="space-y-4">
-          {links.map((link, index) => (
-            <div key={index} className="flex items-center space-x-4 border-b py-3">
-              {/* Link Icon */}
-              <div className="flex justify-center items-center w-8 h-8 rounded-full bg-blue-500 text-white">
-                <i className={`fab fa-${link.site.toLowerCase()}`} />
-              </div>
-              {/* Link Information */}
-              <div className="flex-1">
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:underline text-lg"
-                >
-                  {link.site || "No site selected"}
-                </a>
-                <p className="text-sm text-gray-400 mt-1">{link.url}</p>
-              </div>
             </div>
           ))}
         </div>

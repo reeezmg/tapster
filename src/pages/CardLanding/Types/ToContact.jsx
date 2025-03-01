@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { ClipboardCopy, ClipboardCheck } from "lucide-react";
 
 function ContactInput({ contact, setContact }) {
   const handleChange = (e) => {
@@ -80,25 +81,37 @@ function ContactInput({ contact, setContact }) {
 }
 
 function ContactPreview({ contact, landing }) {
+  const [copiedField, setCopiedField] = useState(null);
+
+  const copyToClipboard = (text, field) => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    setTimeout(() => setCopiedField(null), 1000);
+  };
+
+  const copyAllInfo = () => {
+    const info = `Name: ${contact.name || "N/A"}\nCompany: ${contact.company || "N/A"}\nContact: ${contact.phone || "N/A"}\nEmail: ${contact.email || "N/A"}\nAddress: ${contact.address || "N/A"}\nGSTN: ${contact.gstn || "N/A"}`;
+    copyToClipboard(info, "all");
+  };
   useEffect(() => {
     if (landing && contact.name) {
       // Split full name properly
-      const nameParts = contact.name.trim().split(" ");
-      const lastName = nameParts.length > 1 ? nameParts.pop() : ""; // Last word as last name
-      const firstName = nameParts.join(" "); // Everything else as first name
+      const nameParts = contact.name.trim().split("");
+      const lastName = nameParts.length > 1 ? nameParts.pop() : "";
+      const firstName = nameParts.join("");
 
       const vCardData = `
-BEGIN:VCARD
-VERSION:3.0
-N:${lastName};${firstName};;;
-FN:${contact.name}
-ORG:${contact.company || "N/A"}
-TEL:${contact.phone || ""}
-EMAIL:${contact.email || ""}
-ADR:${contact.address || ""}
-NOTE:GSTN: ${contact.gstn || "N/A"}
-END:VCARD
-      `.trim();
+          BEGIN:VCARD
+          VERSION:3.0
+          N:${lastName};${firstName};;;
+          FN:${contact.name}
+          ORG:${contact.company || "N/A"}
+          TEL:${contact.phone || ""}
+          EMAIL:${contact.email || ""}
+          ADR:${contact.address || ""}
+          NOTE:GSTN: ${contact.gstn || "N/A"}
+          END:VCARD
+          `.trim();
 
       const blob = new Blob([vCardData], { type: "text/vcard" });
       const vcfUrl = URL.createObjectURL(blob);
@@ -114,17 +127,30 @@ END:VCARD
  
 
   return (
-    <div className="p-4">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">Contact Info</h2>
-      <div className="space-y-2">
-        <p><span className="font-medium">Name:</span> {contact.name || "N/A"}</p>
-        <p><span className="font-medium">Company:</span> {contact.company || "N/A"}</p>
-        <p><span className="font-medium">Contact:</span> {contact.phone || "N/A"}</p>
-        <p><span className="font-medium">Email:</span> {contact.email || "N/A"}</p>
-        <p><span className="font-medium">Address:</span> {contact.address || "N/A"}</p>
-        <p><span className="font-medium">GSTN:</span> {contact.gstn || "N/A"}</p>
-      </div>
+    <div className="p-6 border rounded-lg shadow-md bg-white max-w-md mx-auto">
+    <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Contact Info</h2>
+    <div className="space-y-3">
+      {["name", "company", "phone", "email", "address", "gstn"].map((key) => (
+        <div key={key} className="flex justify-between items-center border p-2 rounded-md">
+          <p>
+            <span className="font-medium capitalize">{key}:</span> {contact[key] || "N/A"}
+          </p>
+          <button
+            onClick={() => copyToClipboard(contact[key] || "N/A", key)}
+            className="text-gray-600 hover:text-blue-600"
+          >
+            {copiedField === key ? <ClipboardCheck size={18} /> : <ClipboardCopy size={18} />}
+          </button>
+        </div>
+      ))}
     </div>
+    <button
+      onClick={copyAllInfo}
+      className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 flex items-center justify-center gap-2"
+    >
+      {copiedField === "all" ? <ClipboardCheck size={18} /> : <ClipboardCopy size={18} />} Copy All
+    </button>
+  </div>
   );
 }
 

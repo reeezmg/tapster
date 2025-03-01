@@ -38,25 +38,13 @@ function HPlain({isFlipped,textColor,bgColor,logo,companyName,name,subtitle,QRCo
       transform: "rotateY(180deg)",
     }}
   >
-   <QRCodeCanvas
-  value={`
-BEGIN:VCARD
-VERSION:3.0
-N:Hameed;Abdul;;;
-TEL:9945923901
-ORG:City Center
-EMAIL:mghameed901@gmail.com
-URL:tapster.shop/response/hameed
-ADR:Old bus stand uppinangady, Mangalore, Karnataka-574241
-NOTE:GSTN:29ACBPH0045H1Z0
-END:VCARD
-  `.trim()}
-  size={80}
-  className="self-center"
-  bgColor={bgColor}
-  fgColor={textColor}
-/>
-
+    <QRCodeCanvas
+      value={'https://tapster.shop'}
+      size={80}
+      className="self-center"
+      bgColor={bgColor}
+      fgColor={textColor}
+    />
     <p className="absolute bottom-2 right-2 text-[10px]"
      style={{
       color: textColor,

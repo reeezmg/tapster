@@ -15,7 +15,7 @@ function Response() {
   useEffect(() => {
     const fetchWebData = async () => {
       try {
-        const { data } = await axios.get(`https://server.tapster.shop/api/web/getWebData/${uname}`);
+        const { data } = await axios.get(`http://localhost:8000/api/web/getWebData/${uname}`);
         setResponse(data.responseData);
         console.log(data)
         setWebType(data.webType);

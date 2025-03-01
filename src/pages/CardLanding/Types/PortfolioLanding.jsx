@@ -1,6 +1,16 @@
 import React from "react";
 
-const PortfolioLanding = ({ studentInfo }) => {
+const PortfolioLanding = ({ studentInfo,landing }) => {
+
+  const getImageSrc = (image) => {
+    if (!image) return "";
+    return landing
+      ? `https://unifeed.s3.ap-south-1.amazonaws.com/${image}`
+      : image instanceof File
+      ? URL.createObjectURL(image)
+      : `https://unifeed.s3.ap-south-1.amazonaws.com/${image}`;
+  };
+
   return (
     <div className="min-h-screen bg-gray-200 flex justify-center py-10 px-4">
       <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
@@ -11,7 +21,7 @@ const PortfolioLanding = ({ studentInfo }) => {
           <div className="flex items-center space-x-6 mb-6">
             {studentInfo.profilePicture && (
               <img
-                src={URL.createObjectURL(studentInfo.profilePicture)}
+                src={getImageSrc(studentInfo.profilePicture)}
                 alt="Profile"
                 className="w-24 h-24 rounded-full object-cover border-4 border-gray-300"
               />

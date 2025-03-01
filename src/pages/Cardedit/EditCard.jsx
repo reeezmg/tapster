@@ -48,9 +48,7 @@ const EditCard = () => {
   };
 
  
-  const handleNext = () => {
-    navigate("/step2", { state: { name, subtitle, logo, textColor, bgColor, cardType } });
-  };
+
 
   const cardVariants = {
     front: { rotateY: 0 },
@@ -69,7 +67,7 @@ const EditCard = () => {
 
   
 
-  const handleSubmit = async (e) => {
+  const handleNext = async (e) => {
     e.preventDefault();
 
     try {
@@ -81,7 +79,7 @@ const EditCard = () => {
             formData.append("image", file);
             formData.append("name", name); // Use a unique name for each image
 
-            const response = await axios.post("https://server.tapster.shop/api/images/", formData, {
+            const response = await axios.post("http://localhost:8000/api/images/", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
                 withCredentials: true
             });
@@ -112,11 +110,65 @@ const EditCard = () => {
         };
 
         // Send form data to save the card
-        const response = await axios.post(`https://server.tapster.shop/api/card`, { formData, id }, { withCredentials: true });
+        const response = await axios.post(`http://localhost:8000/api/card`, { formData, id }, { withCredentials: true });
         console.log("Card saved:", response.data);
 
         // Navigate to the next step
         navigate(`/client/step2/${id}`);
+
+    } catch (error) {
+        console.error("Error uploading images or saving card:", error);
+    }
+};
+
+  const handleBack = async (e) => {
+    e.preventDefault();
+
+    try {
+        // Function to handle image uploads
+        const uploadImage = async (file, name) => {
+            if (!file) return null; // If no file, return null
+
+            const formData = new FormData();
+            formData.append("image", file);
+            formData.append("name", name); // Use a unique name for each image
+
+            const response = await axios.post("http://localhost:8000/api/images/", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+                withCredentials: true
+            });
+
+            return response.data.url; // Assuming the server responds with the uploaded image URL
+        };
+
+        const logoName = logo ?  `${Date.now()}` : null;
+        const frontName = front ?  `${Date.now()}` : null;
+        const backName = back ?  `${Date.now()}` : null;
+
+        // Upload images if they exist
+        const logoUrl = logo ? await uploadImage(logo, logoName) : null;
+        const frontUrl = front ? await uploadImage(front, frontName) : null;
+        const backUrl = back ? await uploadImage(back, backName) : null;
+
+        // Prepare final form data
+        const formData = {
+            templateName: selectedCard,
+            front: frontName,
+            back: backName,
+            textColor: textColor,
+            bgColor: bgColor,
+            logo: logoName,
+            companyName: companyName,
+            name: name,
+            subtitle: subtitle,
+        };
+
+        // Send form data to save the card
+        const response = await axios.post(`http://localhost:8000/api/card`, { formData, id }, { withCredentials: true });
+        console.log("Card saved:", response.data);
+
+        // Navigate to the next step
+        navigate(`/client`);
 
     } catch (error) {
         console.error("Error uploading images or saving card:", error);
@@ -146,6 +198,21 @@ const EditCard = () => {
           <div className="bg-blue-500 h-1 rounded" style={{ width: "20%" }}></div>
         </div>
       </div>
+
+      <div className="flex justify-between mt-6 mb-4">
+            <button
+            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+            onClick={handleBack}
+            >
+                Back
+            </button>
+            <button
+            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+            onClick={handleNext}
+            >
+                Next
+            </button>
+        </div>
 
       <div className="flex flex-col md:flex-row gap-6">
         <div className="w-full md:w-1/2 p-4 bg-white rounded-lg shadow-md">
@@ -357,14 +424,20 @@ const EditCard = () => {
         </div>
       </div>
 
-      <div className="flex justify-end mt-6">
-        <button
-          onClick={handleSubmit}
-          className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-        >
-          Next
-        </button>
-      </div>
+      <div className="flex justify-between mt-6 mb-4">
+            <button
+            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+            onClick={handleBack}
+            >
+                Back
+            </button>
+            <button
+            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+            onClick={handleNext}
+            >
+                Next
+            </button>
+        </div>
 
       <Modal showModal={designShowModal} handleCloseModal={handleDesignCloseModal}>
           <DesignSelection selectedCard={selectedCard} setSelectedCard={setSelectedCard} textColor={textColor} bgColor={bgColor} logo={logoPreview} companyName={companyName} name={name} subtitle={subtitle} QRCodeCanvas={QRCodeCanvas}/>
