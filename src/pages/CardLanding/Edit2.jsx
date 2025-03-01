@@ -20,7 +20,7 @@ const Edit2 = () => {
         e.preventDefault();
        
         try {
-            const response = await axios.post("http://localhost:8000/api/web/contact", {contact,id},{withCredentials:true});
+            const response = await axios.post("https://server.tapster.shop/api/web/contact", {contact,id},{withCredentials:true});
             console.log(response)
             navigate(`/client/step3/${id}`);
         } catch (error) {
@@ -33,7 +33,7 @@ const Edit2 = () => {
         e.preventDefault();
        
         try {
-            const response = await axios.post("http://localhost:8000/api/web/contact", {contact,id},{withCredentials:true});
+            const response = await axios.post("https://server.tapster.shop/api/web/contact", {contact,id},{withCredentials:true});
             console.log(response)
             navigate(`/client`);
         } catch (error) {

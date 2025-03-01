@@ -63,7 +63,7 @@ export default function LinkForms() {
     useEffect(() => {
       const fetchWebData = async () => {
           try {
-              const { data } = await axios.get(`http://localhost:8000/api/web/getWebDataByIdForLink/${id}`);
+              const { data } = await axios.get(`https://server.tapster.shop/api/web/getWebDataByIdForLink/${id}`);
               
               if (!data || !data.responseData) {
                   console.error("No responseData received");
@@ -95,7 +95,7 @@ export default function LinkForms() {
     formData.append("image", file);
     formData.append("name", name); // Use a unique name for each image
 
-    const response = await axios.post("http://localhost:8000/api/images/", formData, {
+    const response = await axios.post("https://server.tapster.shop/api/images/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true
     });
@@ -114,7 +114,7 @@ const handleSave = async (e) => {
     profileInfo.profilePicture = profileInfo.profilePicture ? await uploadImage(profileInfo.profilePicture,Date.now()) : null;
     profileInfo.backgroundImage = profileInfo.backgroundImage ? await uploadImage(profileInfo.backgroundImage, Date.now()) : null;
     formData = {...profileInfo,links}
-      const response = await axios.post("http://localhost:8000/api/web/forLink", {formData,id},{withCredentials:true});
+      const response = await axios.post("https://server.tapster.shop/api/web/forLink", {formData,id},{withCredentials:true});
       navigate(`/direct/profile/${id}`);
   } catch (error) {
    console.log(error)

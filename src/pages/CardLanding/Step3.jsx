@@ -73,7 +73,7 @@ const Step3 = () => {
       useEffect(() => {
         const fetchWebData = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:8000/api/web/getWebDataById/${id}`);
+                const { data } = await axios.get(`https://server.tapster.shop/api/web/getWebDataById/${id}`);
                 
                 if (!data || !data.responseData) {
                     console.error("No responseData received");
@@ -163,7 +163,7 @@ const Step3 = () => {
         formData.append("image", file);
         formData.append("name", name); // Use a unique name for each image
 
-        const response = await axios.post("http://localhost:8000/api/images/", formData, {
+        const response = await axios.post("https://server.tapster.shop/api/images/", formData, {
             headers: { "Content-Type": "multipart/form-data" },
             withCredentials: true
         });
@@ -208,7 +208,7 @@ const Step3 = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:8000/api/web", {formData,id,webType},{withCredentials:true});
+            const response = await axios.post("https://server.tapster.shop/api/web", {formData,id,webType},{withCredentials:true});
             navigate(`/client/pay/${id}`);
         } catch (error) {
          console.log(error)
@@ -254,7 +254,7 @@ const Step3 = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:8000/api/web", {formData,id,webType:""},{withCredentials:true});
+            const response = await axios.post("https://server.tapster.shop/api/web", {formData,id,webType:""},{withCredentials:true});
             navigate(`/client/step2/${id}`);
         } catch (error) {
          console.log(error)

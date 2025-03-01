@@ -24,7 +24,7 @@ export default function Pay() {
 
   const fetchCards = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/set/singlecard/${id}`, {
+      const response = await axios.get(`https://server.tapster.shop/api/set/singlecard/${id}`, {
         withCredentials: true,
       });
       if (response.data) {

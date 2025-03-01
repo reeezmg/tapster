@@ -45,7 +45,7 @@ const HomePage = () => {
 
   const handleNext = async () => {
     try {
-      const response = await axios.post("http://localhost:8000/api/set/", {
+      const response = await axios.post("https://server.tapster.shop/api/set/", {
         uname,
         step:1
       }, {withCredentials: true});
@@ -71,7 +71,7 @@ const HomePage = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/api/set/check-uname/${uname}`);
+      const response = await fetch(`https://server.tapster.shop/api/set/check-uname/${uname}`);
       const data = await response.json();
       console.log(data)
       if (data.available) {
@@ -87,7 +87,7 @@ const HomePage = () => {
 
   const fetchCards = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/set/card", {
+      const response = await axios.get("https://server.tapster.shop/api/set/card", {
         withCredentials: true, // Ensures authentication credentials are included
       });
       if (response.data.length > 0) {
