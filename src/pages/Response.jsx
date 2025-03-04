@@ -34,12 +34,18 @@ function Response() {
 
   return (
     <div>
-     <img
+       <img
        src={testImage}
        alt="Local Test Image"
        className="w-full h-48 object-cover"
      />
-     reded
+      <div className="w-full md:w-1/2 p-4 bg-white rounded-lg shadow-md">
+        {webType === "" && <ContactPreview contact={response} landing={true}/>}
+        {webType === "link" && <ProfilePreview profileInfo={response} links={response.links} landing={true}/>}
+        {webType === "shop" && <ShopLandingPage shopInfo={response} landing={true}/>}
+        {webType === "student" && <PortfolioLanding studentInfo={response} landing={true}/>}
+        {webType === "external" && <EmbedLink externalLink={response.externalLink} landing={true}/>}
+      </div>
     </div>
   );
 }
