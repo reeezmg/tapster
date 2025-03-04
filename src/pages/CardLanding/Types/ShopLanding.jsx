@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import testImage from "../../../Images/abstract1b.png";
+import React, { useState } from "react";
 
 const ShopLandingPage = ({ shopInfo, landing }) => {
   const [subject, setSubject] = useState("");
@@ -7,19 +6,15 @@ const ShopLandingPage = ({ shopInfo, landing }) => {
 
   const getImageSrc = (image) => {
     if (!image) return "";
-    const url = landing
+    return landing
       ? `https://unifeed.s3.ap-south-1.amazonaws.com/${image}`
       : image instanceof File
       ? URL.createObjectURL(image)
       : `https://unifeed.s3.ap-south-1.amazonaws.com/${image}`;
-    console.log("Generated Image URL:", url); // Debugging
-    return url;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Subject:", subject);
-    console.log("Message:", message);
     alert("Your message has been sent!");
     setSubject("");
     setMessage("");
@@ -36,10 +31,9 @@ const ShopLandingPage = ({ shopInfo, landing }) => {
 
   const downloadVCard = () => {
     if (contact.name) {
-      // Split full name properly
       const nameParts = contact.name.trim().split(" ");
-      const lastName = nameParts.length > 1 ? nameParts.pop() : ""; // Last word as last name
-      const firstName = nameParts.join(" "); // Everything else as first name
+      const lastName = nameParts.length > 1 ? nameParts.pop() : "";
+      const firstName = nameParts.join(" ");
 
       const vCardData = `
 BEGIN:VCARD
@@ -56,23 +50,18 @@ END:VCARD
 
       const blob = new Blob([vCardData], { type: "text/vcard" });
       const vcfUrl = URL.createObjectURL(blob);
-
-      // Create a temporary anchor element to trigger the download
       const link = document.createElement("a");
       link.href = vcfUrl;
-      link.download = `${contact.name}.vcf`; // Set the filename
+      link.download = `${contact.name}.vcf`;
       document.body.appendChild(link);
-      link.click(); // Trigger the download
-      document.body.removeChild(link); // Clean up
+      link.click();
+      document.body.removeChild(link);
 
-      // Revoke the object URL after the download
       setTimeout(() => {
         URL.revokeObjectURL(vcfUrl);
       }, 1000);
     }
   };
-
-
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -83,7 +72,6 @@ END:VCARD
             src={getImageSrc(shopInfo.logo)}
             alt="Shop Logo"
             className="mx-auto h-32 w-32 rounded-full object-cover shadow-lg"
-            onLoad={() => downloadVCard }
           />
         )}
         <h1 className="mt-4 text-4xl font-bold text-gray-900">{shopInfo.shopName}</h1>
@@ -111,8 +99,6 @@ END:VCARD
         </div>
       </section>
 
-
-
       {/* Business Hours Section */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Business Hours</h2>
@@ -132,7 +118,7 @@ END:VCARD
         </div>
       </section>
 
-      {/* Other Pictures Section */}
+      {/* Gallery Section */}
       {shopInfo.otherPictures.length > 0 && (
         <section className="mb-12">
           <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Gallery</h2>
@@ -145,7 +131,7 @@ END:VCARD
                   alt={`Gallery Image ${index + 1}`}
                   className="w-full h-48 object-cover rounded-lg shadow-md"
                   onError={(e) => {
-                    console.error("Image failed to load:", e.target.src); // Debugging
+                    console.error("Image failed to load:", e.target.src);
                   }}
                 />
               )
@@ -194,6 +180,14 @@ END:VCARD
           </button>
         </form>
       </section>
+
+      {/* Fixed Save Contact Button */}
+      <button
+        onClick={downloadVCard}
+        className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white text-lg font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-blue-700 transition duration-300"
+      >
+        Save Contact
+      </button>
     </div>
   );
 };
