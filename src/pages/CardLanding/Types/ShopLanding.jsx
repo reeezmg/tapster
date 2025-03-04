@@ -34,7 +34,8 @@ const ShopLandingPage = ({ shopInfo, landing }) => {
   }
 
   useEffect(() => {
-    
+    console.log(contact)
+    console.log(shopInfo)
     if (landing && contact.name) {
       // Split full name properly
       const nameParts = contact.name.trim().split(" ");
@@ -100,6 +101,12 @@ END:VCARD
           ))}
         </div>
       </section>
+
+      <img
+  src="https://images.unsplash.com/photo-1633114128174-2f8aa49759b0"
+  alt="Test Image"
+  className="w-full h-48 object-cover"
+/>
 
       {/* Business Hours Section */}
       <section className="mb-12">
