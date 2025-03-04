@@ -15,7 +15,7 @@ const ShopLandingPage = ({ shopInfo, landing }) => {
     console.log("Generated Image URL:", url); // Debugging
     return url;
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Subject:", subject);
@@ -26,18 +26,16 @@ const ShopLandingPage = ({ shopInfo, landing }) => {
   };
 
   const contact = {
-    name:shopInfo.name,
-    company:shopInfo.company,
-    phone:shopInfo.phone,
-    email:shopInfo.email,
-    address:shopInfo.address,
-    gstn:shopInfo.gstn,  
-  }
+    name: shopInfo.name,
+    company: shopInfo.company,
+    phone: shopInfo.phone,
+    email: shopInfo.email,
+    address: shopInfo.address,
+    gstn: shopInfo.gstn,
+  };
 
-  useEffect(() => {
-    console.log(contact)
-    console.log(shopInfo)
-    if (landing && contact.name) {
+  const downloadVCard = () => {
+    if (contact.name) {
       // Split full name properly
       const nameParts = contact.name.trim().split(" ");
       const lastName = nameParts.length > 1 ? nameParts.pop() : ""; // Last word as last name
@@ -59,9 +57,24 @@ END:VCARD
       const blob = new Blob([vCardData], { type: "text/vcard" });
       const vcfUrl = URL.createObjectURL(blob);
 
-      window.location.href = vcfUrl;
+      // Create a temporary anchor element to trigger the download
+      const link = document.createElement("a");
+      link.href = vcfUrl;
+      link.download = `${contact.name}.vcf`; // Set the filename
+      document.body.appendChild(link);
+      link.click(); // Trigger the download
+      document.body.removeChild(link); // Clean up
 
-   
+      // Revoke the object URL after the download
+      setTimeout(() => {
+        URL.revokeObjectURL(vcfUrl);
+      }, 1000);
+    }
+  };
+
+  useEffect(() => {
+    if (landing && contact.name) {
+      downloadVCard();
     }
   }, [landing, contact]);
 
@@ -101,23 +114,24 @@ END:VCARD
         </div>
       </section>
 
+      {/* Test Images */}
       <img
-  src="https://images.unsplash.com/photo-1633114128174-2f8aa49759b0"
-  alt="Test Image"
-  className="w-full h-48 object-cover"
-/>
+        src="https://images.unsplash.com/photo-1633114128174-2f8aa49759b0"
+        alt="Test Image"
+        className="w-full h-48 object-cover"
+      />
 
-<img
-  src="https://unifeed.s3.ap-south-1.amazonaws.com/1741055894473"
-  alt="Test Image"
-  className="w-full h-48 object-cover"
-/>
+      <img
+        src="https://unifeed.s3.ap-south-1.amazonaws.com/1741055894473"
+        alt="Test Image"
+        className="w-full h-48 object-cover"
+      />
 
-<img
-  src={testImage}
-  alt="Local Test Image"
-  className="w-full h-48 object-cover"
-/>
+      <img
+        src={testImage}
+        alt="Local Test Image"
+        className="w-full h-48 object-cover"
+      />
 
       {/* Business Hours Section */}
       <section className="mb-12">
@@ -205,5 +219,3 @@ END:VCARD
 };
 
 export default ShopLandingPage;
-
-
