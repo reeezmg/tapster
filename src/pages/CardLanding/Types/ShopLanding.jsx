@@ -5,16 +5,7 @@ const ShopLandingPage = ({ shopInfo, landing }) => {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
-  const getImageSrc = (image) => {
-    if (!image) return "";
-    const url = landing
-      ? `https://unifeed.s3.ap-south-1.amazonaws.com/${image}`
-      : image instanceof File
-      ? URL.createObjectURL(image)
-      : `https://unifeed.s3.ap-south-1.amazonaws.com/${image}`;
-    console.log("Generated Image URL:", url); // Debugging
-    return url;
-  };
+ 
   
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -71,13 +62,7 @@ END:VCARD
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       {/* Header Section */}
       <header className="text-center mb-12">
-        {shopInfo.logo && (
-          <img
-            src={getImageSrc(shopInfo.logo)}
-            alt="Shop Logo"
-            className="mx-auto h-32 w-32 rounded-full object-cover shadow-lg"
-          />
-        )}
+        
         <h1 className="mt-4 text-4xl font-bold text-gray-900">{shopInfo.shopName}</h1>
         <p className="mt-2 text-lg text-gray-600">{shopInfo.shopDescription}</p>
       </header>
