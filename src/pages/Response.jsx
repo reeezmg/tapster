@@ -42,7 +42,7 @@ function Response() {
       <div className="w-full  bg-white rounded-lg shadow-md">
        
        
-       <ShopLandingPage shopInfo={response} landing={true}/>
+<EmbedLink externalLink={response.externalLink} landing={true}/>
         
       </div>
     </div>
