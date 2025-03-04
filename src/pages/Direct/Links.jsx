@@ -20,7 +20,7 @@ export default function Links() {
   useEffect(() => {
     const fetchWebData = async () => {
       try {
-        const { data } = await axios.get(`https://server.tapster.shop/api/web/getWebDataByIdForLink/${id}`);
+        const { data } = await axios.get(`http://localhost:8000/api/web/getWebDataByIdForLink/${id}`);
         
         if (!data || !data.responseData) {
           console.error("No responseData received");
