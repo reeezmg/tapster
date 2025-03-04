@@ -6,13 +6,15 @@ const ShopLandingPage = ({ shopInfo, landing }) => {
 
   const getImageSrc = (image) => {
     if (!image) return "";
-    return landing
+    const url = landing
       ? `https://unifeed.s3.ap-south-1.amazonaws.com/${image}`
       : image instanceof File
       ? URL.createObjectURL(image)
       : `https://unifeed.s3.ap-south-1.amazonaws.com/${image}`;
+    console.log("Generated Image URL:", url); // Debugging
+    return url;
   };
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Subject:", subject);
@@ -120,6 +122,9 @@ const ShopLandingPage = ({ shopInfo, landing }) => {
                   src={getImageSrc(picture)}
                   alt={`Gallery Image ${index + 1}`}
                   className="w-full h-48 object-cover rounded-lg shadow-md"
+                  onError={(e) => {
+                    console.error("Image failed to load:", e.target.src); // Debugging
+                  }}
                 />
               )
             ))}
@@ -172,3 +177,5 @@ const ShopLandingPage = ({ shopInfo, landing }) => {
 };
 
 export default ShopLandingPage;
+
+
