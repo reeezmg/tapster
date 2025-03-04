@@ -72,11 +72,7 @@ END:VCARD
     }
   };
 
-  useEffect(() => {
-    if (landing && contact.name) {
-      downloadVCard();
-    }
-  }, [landing, contact]);
+
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -87,6 +83,7 @@ END:VCARD
             src={getImageSrc(shopInfo.logo)}
             alt="Shop Logo"
             className="mx-auto h-32 w-32 rounded-full object-cover shadow-lg"
+            onLoad={() => downloadVCard }
           />
         )}
         <h1 className="mt-4 text-4xl font-bold text-gray-900">{shopInfo.shopName}</h1>
@@ -114,24 +111,7 @@ END:VCARD
         </div>
       </section>
 
-      {/* Test Images */}
-      <img
-        src="https://images.unsplash.com/photo-1633114128174-2f8aa49759b0"
-        alt="Test Image"
-        className="w-full h-48 object-cover"
-      />
 
-      <img
-        src="https://unifeed.s3.ap-south-1.amazonaws.com/1741055894473"
-        alt="Test Image"
-        className="w-full h-48 object-cover"
-      />
-
-      <img
-        src={testImage}
-        alt="Local Test Image"
-        className="w-full h-48 object-cover"
-      />
 
       {/* Business Hours Section */}
       <section className="mb-12">
