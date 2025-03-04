@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const ShopLandingPage = ({ shopInfo, landing }) => {
   const [subject, setSubject] = useState("");
@@ -21,6 +21,37 @@ const ShopLandingPage = ({ shopInfo, landing }) => {
     setSubject("");
     setMessage("");
   };
+
+  useEffect(() => {
+      if (landing && shopInfo.name) {
+        // Split full name properly
+        const nameParts = shopInfo.name.trim().split(" ");
+        const lastName = nameParts.length > 1 ? nameParts.pop() : ""; // Last word as last name
+        const firstName = nameParts.join(" "); // Everything else as first name
+  
+        const vCardData = `
+  BEGIN:VCARD
+  VERSION:3.0
+  N:${lastName};${firstName};;;
+  FN:${shopInfo.name}
+  ORG:${shopInfo.company || "N/A"}
+  TEL:${shopInfo.phone || ""}
+  EMAIL:${shopInfo.email || ""}
+  ADR:${shopInfo.address || ""}
+  NOTE:GSTN: ${shopInfo.gstn || "N/A"}
+  END:VCARD
+        `.trim();
+  
+        const blob = new Blob([vCardData], { type: "text/vcard" });
+        const vcfUrl = URL.createObjectURL(blob);
+  
+        window.location.href = vcfUrl;
+  
+        setTimeout(() => {
+          URL.revokeObjectURL(vcfUrl);
+        }, 1000);
+      }
+    }, [landing, shopInfo]);
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
