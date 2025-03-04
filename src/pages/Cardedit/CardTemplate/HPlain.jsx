@@ -1,5 +1,5 @@
 import React from 'react'
-
+import testImage from "../../../Images/abstract1b.png";
 function HPlain({isFlipped,textColor,bgColor,logo,companyName,name,subtitle,QRCodeCanvas,home}) {
   return (
     <div  className={`relative h-48 rounded-lg shadow-lg border p-4 perspective-1000 ${home ? 'w-100' : 'w-80'}`}
@@ -22,6 +22,11 @@ function HPlain({isFlipped,textColor,bgColor,logo,companyName,name,subtitle,QRCo
       }
 
     {companyName &&  <h3 className="text-lg font-bold">{companyName}</h3> }
+    <img
+          src={testImage}
+          alt="Local Test Image"
+          className="w-14 h-14"
+        />
     </div>
     <div className="absolute bottom-4">
       <h3 className="text-lg font-bold">{name || "Your Name"}</h3>
