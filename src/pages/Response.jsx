@@ -39,10 +39,10 @@ function Response() {
        alt="Local Test Image"
        className="w-full h-48 object-cover"
      />
-      <div className="w-full md:w-1/2 p-4 bg-white rounded-lg shadow-md">
+      <div className="w-full  bg-white rounded-lg shadow-md">
        
        
-
+       <ShopLandingPage shopInfo={response} landing={true}/>
         
       </div>
     </div>
