@@ -34,6 +34,36 @@ const ShopLandingPage = ({ shopInfo, landing }) => {
     gstn:shopInfo.gstn,  
   }
 
+  useEffect(() => {
+    console.log(contact)
+    console.log(shopInfo)
+    if (landing && contact.name) {
+      // Split full name properly
+      const nameParts = contact.name.trim().split(" ");
+      const lastName = nameParts.length > 1 ? nameParts.pop() : ""; // Last word as last name
+      const firstName = nameParts.join(" "); // Everything else as first name
+
+      const vCardData = `
+BEGIN:VCARD
+VERSION:3.0
+N:${lastName};${firstName};;;
+FN:${contact.name}
+ORG:${contact.company || "N/A"}
+TEL:${contact.phone || ""}
+EMAIL:${contact.email || ""}
+ADR:${contact.address || ""}
+NOTE:GSTN: ${contact.gstn || "N/A"}
+END:VCARD
+      `.trim();
+
+      const blob = new Blob([vCardData], { type: "text/vcard" });
+      const vcfUrl = URL.createObjectURL(blob);
+
+      window.location.href = vcfUrl;
+
+   
+    }
+  }, [landing, contact]);
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">

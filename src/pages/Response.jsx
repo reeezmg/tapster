@@ -6,7 +6,6 @@ import { ProfilePreview } from './CardLanding/Types/ToDirectURL';
 import ShopLandingPage from './CardLanding/Types/ShopLanding';
 import PortfolioLanding from './CardLanding/Types/PortfolioLanding';
 import { EmbedLink } from './CardLanding/Types/ExternalLink';
-import testImage from "../Images/abstract1b.png"
 
 function Response() {
   const { uname } = useParams(); // Get uname from route params
@@ -34,16 +33,12 @@ function Response() {
 
   return (
     <div>
-       <img
-       src={testImage}
-       alt="Local Test Image"
-       className="w-full h-48 object-cover"
-     />
-      <div className="w-full  bg-white rounded-lg shadow-md">
-       
-       
-       <ShopLandingPage shopInfo={response} landing={true}/>
-        
+      <div className="w-full md:w-1/2 p-4 bg-white rounded-lg shadow-md">
+        {webType === "" && <ContactPreview contact={response} landing={true}/>}
+        {webType === "link" && <ProfilePreview profileInfo={response} links={response.links} landing={true}/>}
+        {webType === "shop" && <ShopLandingPage shopInfo={response} landing={true}/>}
+        {webType === "student" && <PortfolioLanding studentInfo={response} landing={true}/>}
+        {webType === "external" && <EmbedLink externalLink={response.externalLink} landing={true}/>}
       </div>
     </div>
   );
