@@ -42,9 +42,9 @@ function Response() {
       <div className="w-full  bg-white rounded-lg shadow-md">
        
        
-<EmbedLink externalLink={response.externalLink} landing={true}/>
+<PortfolioLanding studentInfo={response} landing={true}/>
         
-      </div>
+      </div>xcxv
     </div>
   );
 }
