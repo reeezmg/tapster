@@ -156,7 +156,7 @@ END:VCARD
     <img
       src={testImage}
       alt="Local Test Image"
-      className="w-full h-48 object-cover"
+      className="w-14 h-14"
     />
   </div>
   );
