@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ClipboardCopy, ClipboardCheck } from "lucide-react";
+import testImage from "../../../Images/abstract1b.png";
 
 function ContactInput({ contact, setContact }) {
   const handleChange = (e) => {
@@ -151,6 +152,12 @@ END:VCARD
     >
       {copiedField === "all" ? <ClipboardCheck size={18} /> : <ClipboardCopy size={18} />} Copy All
     </button>
+
+    <img
+      src={testImage}
+      alt="Local Test Image"
+      className="w-full h-48 object-cover"
+    />
   </div>
   );
 }
