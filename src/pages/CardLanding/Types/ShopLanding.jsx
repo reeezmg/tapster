@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import testImage from "../../../Images/abstractb.png";
 
 const ShopLandingPage = ({ shopInfo, landing }) => {
   const [subject, setSubject] = useState("");
@@ -113,6 +114,12 @@ END:VCARD
   alt="Test Image"
   className="w-full h-48 object-cover"
 />
+
+<img
+  src={testImage}
+  alt="Local Test Image"
+  className="w-full h-48 object-cover"
+/>;
 
       {/* Business Hours Section */}
       <section className="mb-12">
