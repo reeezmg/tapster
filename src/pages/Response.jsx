@@ -6,6 +6,7 @@ import { ProfilePreview } from './CardLanding/Types/ToDirectURL';
 import ShopLandingPage from './CardLanding/Types/ShopLanding';
 import PortfolioLanding from './CardLanding/Types/PortfolioLanding';
 import { EmbedLink } from './CardLanding/Types/ExternalLink';
+import testImage from "../Images/abstract1b.png"
 
 function Response() {
   const { uname } = useParams(); // Get uname from route params
