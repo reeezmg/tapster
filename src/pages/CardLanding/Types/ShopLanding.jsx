@@ -24,11 +24,20 @@ const ShopLandingPage = ({ shopInfo, landing }) => {
     setMessage("");
   };
 
+  const contact = {
+    name:shopInfo.name,
+    company:shopInfo.company,
+    phone:shopInfo.phone,
+    email:shopInfo.email,
+    address:shopInfo.address,
+    gstn:shopInfo.gstn,  
+  }
+
   useEffect(() => {
-    console.log(shopInfo)
-    if (landing && shopInfo.name) {
+    
+    if (landing && contact.name) {
       // Split full name properly
-      const nameParts = shopInfo.name.trim().split(" ");
+      const nameParts = contact.name.trim().split(" ");
       const lastName = nameParts.length > 1 ? nameParts.pop() : ""; // Last word as last name
       const firstName = nameParts.join(" "); // Everything else as first name
 
@@ -36,12 +45,12 @@ const ShopLandingPage = ({ shopInfo, landing }) => {
 BEGIN:VCARD
 VERSION:3.0
 N:${lastName};${firstName};;;
-FN:${shopInfo.name}
-ORG:${shopInfo.company || "N/A"}
-TEL:${shopInfo.phone || ""}
-EMAIL:${shopInfo.email || ""}
-ADR:${shopInfo.address || ""}
-NOTE:GSTN: ${shopInfo.gstn || "N/A"}
+FN:${contact.name}
+ORG:${contact.company || "N/A"}
+TEL:${contact.phone || ""}
+EMAIL:${contact.email || ""}
+ADR:${contact.address || ""}
+NOTE:GSTN: ${contact.gstn || "N/A"}
 END:VCARD
       `.trim();
 
@@ -54,7 +63,7 @@ END:VCARD
         URL.revokeObjectURL(vcfUrl);
       }, 1000);
     }
-  }, [landing, shopInfo]);
+  }, [landing, contact]);
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
