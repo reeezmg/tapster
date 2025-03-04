@@ -118,7 +118,7 @@ END:VCARD
 <img
   src={testImage}
   alt="Local Test Image"
-  className=""
+  className="w-full h-48"
 />
 
       {/* Business Hours Section */}
