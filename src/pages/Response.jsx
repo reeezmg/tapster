@@ -42,7 +42,7 @@ function Response() {
       <div className="w-full md:w-1/2 p-4 bg-white rounded-lg shadow-md">
        
        
-       <ShopLandingPage shopInfo={response} landing={true}/>
+
         
       </div>
     </div>
