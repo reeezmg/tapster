@@ -95,6 +95,7 @@ function ContactPreview({ contact, landing }) {
   };
   
   useEffect(() => {
+    console.log(contact)
     if (landing && contact.name) {
       // Split full name properly
       const nameParts = contact.name.trim().split(" ");

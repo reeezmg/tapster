@@ -30,9 +30,6 @@ const Step3 = () => {
     const [links, setLinks] = useState([]);
     const [shopInfo, setShopInfo] = useState({
         logo: null,
-        name:"",
-        phone: "",
-        email: "",
         otherPictures: [],
         productCategories: [],
         businessHours: {
