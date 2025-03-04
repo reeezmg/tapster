@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import testImage from "../../../Images/abstractb.png";
+import testImage from "../../../Images/abstract1b.png";
 
 const ShopLandingPage = ({ shopInfo, landing }) => {
   const [subject, setSubject] = useState("");

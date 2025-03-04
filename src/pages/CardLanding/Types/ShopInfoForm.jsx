@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import testImage from "../../../Images/abstractb.png";
+
 
 const ShopInfoForm = ({shopInfo, setShopInfo}) => {
 
