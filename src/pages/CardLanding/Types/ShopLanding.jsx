@@ -108,6 +108,12 @@ END:VCARD
   className="w-full h-48 object-cover"
 />
 
+<img
+  src="https://unifeed.s3.ap-south-1.amazonaws.com/1741055894473"
+  alt="Test Image"
+  className="w-full h-48 object-cover"
+/>
+
       {/* Business Hours Section */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Business Hours</h2>
