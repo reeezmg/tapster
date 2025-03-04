@@ -42,9 +42,9 @@ function Response() {
       <div className="w-full  bg-white rounded-lg shadow-md">
        
        
-<PortfolioLanding studentInfo={response} landing={true}/>
+       <ShopLandingPage shopInfo={response} landing={true}/>
         
-      </div>xcxv
+      </div>
     </div>
   );
 }
