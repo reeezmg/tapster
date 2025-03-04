@@ -119,7 +119,7 @@ END:VCARD
   src={testImage}
   alt="Local Test Image"
   className=""
-/>;
+/>
 
       {/* Business Hours Section */}
       <section className="mb-12">
